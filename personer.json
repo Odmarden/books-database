@@ -1,0 +1,26 @@
+[
+    {
+        "id": 2,
+        "namn": "Rune",
+        "ålder": 22,
+        "kategori": "Familj"
+    },
+    {
+        "id": 3,
+        "namn": "Eva",
+        "ålder": 38,
+        "kategori": "Jobb"
+    },
+    {
+        "id": 1,
+        "namn": "Sune",
+        "ålder": 48,
+        "kategori": "Vän"
+    },
+    {
+        "id": 4,
+        "namn": "Bert",
+        "ålder": 37,
+        "kategori": "Övrigt"
+    }
+]

@@ -1,0 +1,21 @@
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# CSV exports
+*.csv
+
+# Symbolic links
+bokdatabas
+
+# Virtual environment
+venv/
+env/
+.env

@@ -1,0 +1,638 @@
+[
+    {
+        "id": 104,
+        "titel": "Det vita gardet",
+        "författare": "Bulgakov, Michail",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 105,
+        "titel": "Mästaren och Margarita",
+        "författare": "Bulgakov, Michail",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 75,
+        "titel": "The Cities of the Red Night",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 76,
+        "titel": "Junkie",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 77,
+        "titel": "Tjacket",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 78,
+        "titel": "Svängd",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 79,
+        "titel": "The Naked Lunch",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 80,
+        "titel": "Den nakna lunchen",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 81,
+        "titel": "The Soft Machine",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 82,
+        "titel": "The Ticket That Exploded",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 83,
+        "titel": "Där döda vägar möts",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 84,
+        "titel": "The Western Lands",
+        "författare": "Burroughs, William S",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 28,
+        "titel": "Brott och straff",
+        "författare": "Dostojevskij, Fjodor",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 29,
+        "titel": "Idioten",
+        "författare": "Dostojevskij, Fjodor",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 30,
+        "titel": "Onda andar",
+        "författare": "Dostojevskij, Fjodor",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 31,
+        "titel": "Bröderna Karamazov",
+        "författare": "Dostojevskij, Fjodor",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 87,
+        "titel": "American Psycho",
+        "författare": "Easton Ellis, Bret",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 88,
+        "titel": "Lunar Park",
+        "författare": "Easton Ellis, Bret",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 89,
+        "titel": "The Shards",
+        "författare": "Easton Ellis, Bret",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 38,
+        "titel": "Rosens namn",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 39,
+        "titel": "Foucault's Pendulum",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 40,
+        "titel": "Begravningsplatsen i Prag",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 41,
+        "titel": "Baudolino",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 42,
+        "titel": "Gårdagens ö",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 43,
+        "titel": "P.S. till Rosens namn",
+        "författare": "Eco, Umberto",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 44,
+        "titel": "Vad kostar ett mästerverk?",
+        "författare": "Eco, Umberto",
+        "kategori": "Facklitteratur"
+    },
+    {
+        "id": 9,
+        "titel": "Mörker och blåbärsris",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 10,
+        "titel": "Häxringarna",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 11,
+        "titel": "Springkällan",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 12,
+        "titel": "Änglahuset",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 13,
+        "titel": "En stad av ljus",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 14,
+        "titel": "Herrarna i skogen",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 15,
+        "titel": "Gör mig levande igen",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 16,
+        "titel": "Händelser vid vatten",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 17,
+        "titel": "Rövarna i Skuleskogen",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 18,
+        "titel": "Guds barmhärtighet",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 19,
+        "titel": "Sista rompan",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 20,
+        "titel": "Skraplotter",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 21,
+        "titel": "Grand final i skojarbranschen",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 22,
+        "titel": "Löpa varg",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 24,
+        "titel": "Mordets praktik",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 25,
+        "titel": "Urminnes tecken",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 26,
+        "titel": "Knivkastarens kvinna",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 27,
+        "titel": "Min bokvärld",
+        "författare": "Ekman, Kerstin",
+        "kategori": "Facklitteratur"
+    },
+    {
+        "id": 23,
+        "titel": "Se blommorna",
+        "författare": "Ekman, Kerstin | Eriksson, Gunnar",
+        "kategori": "Facklitteratur"
+    },
+    {
+        "id": 32,
+        "titel": "LA Confidential",
+        "författare": "Ellroy, James",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 33,
+        "titel": "Vit jazz",
+        "författare": "Ellroy, James",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 34,
+        "titel": "American Tabloid",
+        "författare": "Ellroy, James",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 35,
+        "titel": "Sextusen kalla",
+        "författare": "Ellroy, James",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 36,
+        "titel": "Blood's a Rover",
+        "författare": "Ellroy, James",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 37,
+        "titel": "My Dark Places",
+        "författare": "Ellroy, James",
+        "kategori": "Övrigt"
+    },
+    {
+        "id": 71,
+        "titel": "Legionärerna",
+        "författare": "Enquist, Per-Olov",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 72,
+        "titel": "Musikanternas uttåg",
+        "författare": "Enquist, Per-Olov",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 73,
+        "titel": "Ett annat liv",
+        "författare": "Enquist, Per-Olov",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 74,
+        "titel": "Lewis resa",
+        "författare": "Enquist, Per-Olov",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 106,
+        "titel": "Liv och öde",
+        "författare": "Grossman, Vasilij",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 63,
+        "titel": "Elementarpartiklarna",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 64,
+        "titel": "Plattform",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 65,
+        "titel": "The Possibility of an Island",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 66,
+        "titel": "Kartan och landskapet",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 67,
+        "titel": "Underkastelse",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 68,
+        "titel": "Serotonin",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 69,
+        "titel": "Förinta",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 70,
+        "titel": "Konkurrens till döds",
+        "författare": "Houellebecq, Michel",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 59,
+        "titel": "Morgonstjärnan",
+        "författare": "Knausgaard, Karl Ove",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 60,
+        "titel": "Vargarna från evighetens skog",
+        "författare": "Knausgaard, Karl Ove",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 61,
+        "titel": "Det tredje riket",
+        "författare": "Knausgaard, Karl Ove",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 62,
+        "titel": "Nattens skola",
+        "författare": "Knausgaard, Karl Ove",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 102,
+        "titel": "Picnic at Hanging Rock",
+        "författare": "Lindsay, Joan",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 90,
+        "titel": "Animal Farm",
+        "författare": "Orwell, George",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 91,
+        "titel": "1984",
+        "författare": "Orwell, George",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 45,
+        "titel": "Snuff",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 46,
+        "titel": "Rant",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 47,
+        "titel": "Choke",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 48,
+        "titel": "Lullaby",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 49,
+        "titel": "Fight Club",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 50,
+        "titel": "Haunted",
+        "författare": "Palahniuk, Chuck",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 100,
+        "titel": "Skrifter, bok 3",
+        "författare": "Platon",
+        "kategori": "Övrigt"
+    },
+    {
+        "id": 101,
+        "titel": "Dialoger",
+        "författare": "Platon",
+        "kategori": "Övrigt"
+    },
+    {
+        "id": 85,
+        "titel": "Samlade verk",
+        "författare": "Sandgren, Lydia",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 86,
+        "titel": "Artens överlevnad",
+        "författare": "Sandgren, Lydia",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 51,
+        "titel": "Mannen på balkongen",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 52,
+        "titel": "Mannen som gick upp i rök",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 53,
+        "titel": "Den skrattande polisen",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 54,
+        "titel": "Brandbilen som försvann",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 55,
+        "titel": "Polis, polis, potatismos",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 56,
+        "titel": "Polismördaren",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 57,
+        "titel": "Terroristerna",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 58,
+        "titel": "Det slutna rummet",
+        "författare": "Sjöwall, Maj | Wahlöö, Per",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 97,
+        "titel": "Äldreomsorgen i övre Kågedalen",
+        "författare": "Teratologen, Nikanor",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 98,
+        "titel": "Hebbershålsapokryferna",
+        "författare": "Teratologen, Nikanor",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 99,
+        "titel": "Äldreomsorgen i övre Kågedalen, Förensligandet i det egentliga Västerbotten",
+        "författare": "Teratologen, Nikanor",
+        "kategori": "Skönlitteratur inrikes"
+    },
+    {
+        "id": 1,
+        "titel": "Sagan om ringen",
+        "författare": "Tolkien, JRR",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 2,
+        "titel": "Sagan om de två tornen",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 3,
+        "titel": "Sagan om konungens återkomst",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 4,
+        "titel": "Hobbiten",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 5,
+        "titel": "Silmarillion",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 6,
+        "titel": "Ringens värld",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 7,
+        "titel": "The Lord of the Rings",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 8,
+        "titel": "Sagor från Midgård",
+        "författare": "Tolkien, JRR  ",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 92,
+        "titel": "Trainspotting",
+        "författare": "Welsh, Irvine",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 93,
+        "titel": "Filth",
+        "författare": "Welsh, Irvine",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 94,
+        "titel": "Ecstasy",
+        "författare": "Welsh, Irvine",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 95,
+        "titel": "Crime",
+        "författare": "Welsh, Irvine",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 96,
+        "titel": "Trainspotting & Headstate",
+        "författare": "Welsh, Irvine",
+        "kategori": "Skönlitteratur utrikes"
+    },
+    {
+        "id": 103,
+        "titel": "Thirst For Love",
+        "författare": "Mishima, Yukio",
+        "kategori": "Skönlitteratur utrikes"
+    }
+]

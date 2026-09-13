@@ -2,10 +2,11 @@ import sqlite3
 import csv
 import shutil
 from datetime import datetime
+import os
 
 # Inställningar
 DB_NAMN = "bibliotek.db"
-KATEGORIER = ["Skönlitteratur", "Facklitteratur", "Biografi", "Övrigt", "Lyrik", "Dramatik", "Filosofi", "Teologi"]
+KATEGORIER = ["Skönlitteratur", "Facklitteratur", "Biografi", "Övrigt", "Lyrik", "Dramatik", "Filosofi", "Teologi", "Matlagning", "Barn"]
 
 # Färger för terminalen
 GREEN = '\033[92m'
@@ -25,9 +26,23 @@ def initiera_databas():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titel TEXT NOT NULL,
             forfattare TEXT NOT NULL,
-            kategori TEXT
+            kategori TEXT,
+            tryckaar INTEGER,
+            forlag TEXT,
+            thumbnail TEXT
         )
     ''')
+    
+    # Check if new columns exist, if not add them (migration for existing databases)
+    cursor.execute("PRAGMA table_info(bocker)")
+    columns = [column[1] for column in cursor.fetchall()]
+    
+    if 'tryckaar' not in columns:
+        cursor.execute('ALTER TABLE bocker ADD COLUMN tryckaar INTEGER')
+    if 'forlag' not in columns:
+        cursor.execute('ALTER TABLE bocker ADD COLUMN forlag TEXT')
+    if 'thumbnail' not in columns:
+        cursor.execute('ALTER TABLE bocker ADD COLUMN thumbnail TEXT')
     
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS referenser (
@@ -40,7 +55,6 @@ def initiera_databas():
     ''')
     conn.commit()
     conn.close()
-
 def backup_databas():
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     source_db = 'bibliotek.db'
@@ -85,37 +99,120 @@ def välj_kategori():
             return KATEGORIER[int(val) - 1]
         print(f"{RED}Ogiltigt val.{END}")
 
+
+def validera_tryckaar(tryckaar_str):
+    """Validerar att tryckår är ett 4-siffrigt heltal mellan 1000 och nuvarande år."""
+    if not tryckaar_str.strip():  # Tom sträng är OK (optional)
+        return None
+    
+    current_year = datetime.now().year
+    try:
+        year = int(tryckaar_str)
+        if 1000 <= year <= current_year:
+            return year
+        else:
+            print(f"{RED}Tryckår måste vara mellan 1000 och {current_year}.{END}")
+            return False
+    except ValueError:
+        print(f"{RED}Tryckår måste vara ett heltal.{END}")
+        return False
+
+def hantera_thumbnail(thumbnail_path):
+    """Hanterar thumbnail-filen genom att kopiera den till thumbnails-mappen."""
+    if not thumbnail_path.strip():
+        return "thumbnails/placeholder.svg"  # Default placeholder
+    
+    if not os.path.exists(thumbnail_path):
+        print(f"{RED}Filen {thumbnail_path} finns inte.{END}")
+        return None
+    
+    # Skapa unikt filnamn baserat på timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_extension = os.path.splitext(thumbnail_path)[1]
+    new_filename = f"thumb_{timestamp}{file_extension}"
+    new_path = os.path.join("thumbnails", new_filename)
+    
+    try:
+        shutil.copy2(thumbnail_path, new_path)
+        print(f"{GREEN}Thumbnail sparad som {new_path}{END}")
+        return new_path
+    except Exception as e:
+        print(f"{RED}Fel vid kopiering av thumbnail: {e}{END}")
+        return None
+
 # --- MENYFUNKTIONER (1-11) ---
 
 def visa_böcker():
-    print(f"\n{BOLD}Sortera efter: 1. Titel | 2. Författare | 3. ID (Nyast){END}")
+    print(f"\n{BOLD}Sortera efter: 1. Titel | 2. Författare | 3. ID (Nyast) | 4. Tryckår{END}")
     val = input("Välj: ")
     order = "titel ASC"
     if val == "2": order = "forfattare ASC"
     elif val == "3": order = "id DESC"
+    elif val == "4": order = "tryckaar DESC NULLS LAST"
 
     conn = sqlite3.connect(DB_NAMN)
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM bocker ORDER BY {order}")
     rader = cursor.fetchall()
     
-    print(f"\n{BLUE}{'ID':<4} {'Titel':<40} {'Författare':<30} {'Kategori':<15} {'Referenser'}{END}")
-    print("-" * 140)
+    print(f"\n{BLUE}{'ID':<4} {'Titel':<25} {'Författare':<20} {'År':<6} {'Förlag':<15} {'Kategori':<12} {'Referenser'}{END}")
+    print("-" * 120)
     for rad in rader:
-        refs = hämta_referens_titlar(rad[0])
-        print(f"{rad[0]:<4} {rad[1][:38]:<40} {rad[2][:28]:<30} {rad[3]:<15} {refs}")
+        # Hantera den nya datastrukturen: id, titel, forfattare, kategori, tryckaar, forlag, thumbnail
+        id_val = rad[0]
+        titel = rad[1][:23] if rad[1] else ""
+        forfattare = rad[2][:18] if rad[2] else ""
+        kategori = rad[3][:10] if rad[3] else ""
+        tryckaar = str(rad[4]) if rad[4] else ""
+        forlag = rad[5][:13] if rad[5] else ""
+        refs = hämta_referens_titlar(id_val)
+        
+        print(f"{id_val:<4} {titel:<25} {forfattare:<20} {tryckaar:<6} {forlag:<15} {kategori:<12} {refs}")
     conn.close()
+
 
 def lägg_till_bok():
     titel = input("Titel: ")
     forfattare = input("Författare: ")
     kategori = välj_kategori()
+    
+    # Hantera tryckår
+    tryckaar = None
+    while True:
+        tryckaar_input = input("Tryckår (valfritt, tryck Enter för att hoppa över): ")
+        if not tryckaar_input.strip():  # Tom input - hoppa över
+            break
+        validation_result = validera_tryckaar(tryckaar_input)
+        if validation_result is not False:  # None eller giltigt år
+            tryckaar = validation_result
+            break
+    
+    # Hantera förlag
+    forlag = input("Förlag (valfritt): ")
+    if not forlag.strip():
+        forlag = None
+    
+    # Hantera thumbnail
+    thumbnail = None
+    while True:
+        thumbnail_input = input("Thumbnail-sökväg (valfritt, tryck Enter för standardbild): ")
+        thumbnail_result = hantera_thumbnail(thumbnail_input)
+        if thumbnail_result is not None:
+            thumbnail = thumbnail_result
+            break
+        elif not thumbnail_input.strip():  # Tom input accepteras
+            thumbnail = "thumbnails/placeholder.svg"
+            break
+        # Annars försök igen
+    
     conn = sqlite3.connect(DB_NAMN)
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO bocker (titel, forfattare, kategori) VALUES (?, ?, ?)', (titel, forfattare, kategori))
+    cursor.execute('INSERT INTO bocker (titel, forfattare, kategori, tryckaar, forlag, thumbnail) VALUES (?, ?, ?, ?, ?, ?)', 
+                   (titel, forfattare, kategori, tryckaar, forlag, thumbnail))
     conn.commit()
     conn.close()
     print(f"{GREEN}Boken sparad!{END}")
+
 
 def ta_bort_bok():
     val = input("\nAnge ID på boken du vill ta bort: ")
@@ -152,8 +249,9 @@ def redigera_bok():
     conn = sqlite3.connect(DB_NAMN)
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bocker WHERE id = ?", (vid,))
-    if cursor.fetchone():
-        print("1. Ändra titel | 2. Ändra författare | 3. Ändra kategori")
+    bok = cursor.fetchone()
+    if bok:
+        print("1. Ändra titel | 2. Ändra författare | 3. Ändra kategori | 4. Ändra tryckår | 5. Ändra förlag | 6. Ändra thumbnail")
         val = input("Välj: ")
         if val == "1":
             cursor.execute("UPDATE bocker SET titel = ? WHERE id = ?", (input("Ny titel: "), vid))
@@ -161,9 +259,33 @@ def redigera_bok():
             cursor.execute("UPDATE bocker SET forfattare = ? WHERE id = ?", (input("Ny författare: "), vid))
         elif val == "3":
             cursor.execute("UPDATE bocker SET kategori = ? WHERE id = ?", (välj_kategori(), vid))
+        elif val == "4":
+            while True:
+                tryckaar_input = input("Nytt tryckår (lämna tomt för att ta bort): ")
+                if not tryckaar_input.strip():
+                    cursor.execute("UPDATE bocker SET tryckaar = ? WHERE id = ?", (None, vid))
+                    break
+                validation_result = validera_tryckaar(tryckaar_input)
+                if validation_result is not False:
+                    cursor.execute("UPDATE bocker SET tryckaar = ? WHERE id = ?", (validation_result, vid))
+                    break
+        elif val == "5":
+            forlag = input("Nytt förlag (lämna tomt för att ta bort): ")
+            cursor.execute("UPDATE bocker SET forlag = ? WHERE id = ?", (forlag if forlag.strip() else None, vid))
+        elif val == "6":
+            while True:
+                thumbnail_input = input("Ny thumbnail-sökväg (lämna tomt för standardbild): ")
+                thumbnail_result = hantera_thumbnail(thumbnail_input)
+                if thumbnail_result is not None:
+                    cursor.execute("UPDATE bocker SET thumbnail = ? WHERE id = ?", (thumbnail_result, vid))
+                    break
+                elif not thumbnail_input.strip():
+                    cursor.execute("UPDATE bocker SET thumbnail = ? WHERE id = ?", ("thumbnails/placeholder.svg", vid))
+                    break
         conn.commit()
         print(f"{GREEN}Uppdaterat!{END}")
     conn.close()
+
 
 def visa_statistik():
     conn = sqlite3.connect(DB_NAMN)
@@ -182,10 +304,11 @@ def exportera_till_csv():
     rader = cursor.fetchall()
     with open("bibliotek_export.csv", "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f, delimiter=";")
-        writer.writerow(["ID", "Titel", "Författare", "Kategori"])
+        writer.writerow(["ID", "Titel", "Författare", "Kategori", "Tryckår", "Förlag", "Thumbnail"])
         writer.writerows(rader)
     conn.close()
     print(f"{GREEN}Export klar till 'bibliotek_export.csv'{END}")
+
 
 def koppla_bocker():
     id1, id2 = input("ID för bok 1: "), input("ID för bok 2: ")

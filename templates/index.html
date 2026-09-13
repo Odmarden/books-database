@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-intro text-center">
+    <h1 class="page-title">Mitt bibliotek</h1>
+</section>
+<div class="row justify-content-center mb-4"><div class="col-lg-10"><div class="catalogue-toolbar">
+    <form method="GET" action="{{ url_for('index') }}" class="d-flex gap-2 align-items-center">
+        <input type="text" name="sok" class="form-control form-control-lg search-field" aria-label="Sök böcker" placeholder="Sök titel, författare, förlag..." value="{{ sokord }}">
+        <select name="kat" class="form-select form-select-lg w-auto filter-select" aria-label="Filtrera på kategori">
+            <option value="">Alla kategorier</option>
+            {% for k in kategorier %}<option value="{{ k }}" {% if k == vald_kat %}selected{% endif %}>{{ k }}</option>{% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary btn-lg px-3" aria-label="Sök"><i class="bi bi-search"></i></button>
+    </form>
+</div></div></div>
+{% if rader %}<p class="result-count text-center mb-4">{{ rader|length }} {% if rader|length == 1 %}bok hittades{% else %}böcker hittades{% endif %}</p>{% endif %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for rad in rader %}
+    <div class="col"><article class="card book-card">
+        <a href="{{ url_for('upload_thumbnail', bok_id=rad[0]) }}" class="book-cover" title="Klicka för att ändra omslagsbild">
+            <img src="{{ url_for('thumbnail', filename=rad[6] if rad[6] else 'placeholder.svg') }}" alt="Omslag för {{ rad[1] }}" onerror="this.src='{{ url_for('thumbnail', filename='placeholder.svg') }}'">
+        </a>
+        <div class="card-body d-flex flex-column">
+            <h2 class="book-title">{{ rad[1] }}</h2>
+            <a href="{{ url_for('index', sok=rad[2]) }}" class="book-author book-author-link" title="Visa böcker av {{ rad[2] }}">av {{ rad[2] }}</a>
+            <div class="book-meta mb-2">
+                {% if rad[3] %}<a href="{{ url_for('index', kat=rad[3]) }}" class="text-decoration-none"><span class="tag tag-cat">{{ rad[3] }}</span></a>{% endif %}
+                {% if rad[4] %}<span class="tag tag-year">{{ rad[4] }}</span>{% endif %}
+                {% if rad[5] %}<span class="tag tag-pub">{{ rad[5] }}</span>{% endif %}
+            </div>
+            {% if rad[7] %}<div class="ref-section mt-auto pt-2 border-top"><small class="ref-label fw-bold d-block mb-1">Relaterat</small>
+                {% for ref_data in rad[7].split('||') %}{% set parts = ref_data.split(':', 1) %}{% if parts|length == 2 %}<a href="{{ url_for('index', sok=parts[1]) }}" class="ref-link">{{ parts[1] }}</a>{% endif %}{% endfor %}
+            </div>{% endif %}
+        </div>
+        <footer class="card-footer"><div class="book-actions d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('edit_book', bok_id=rad[0]) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Redigera</a>
+            <form method="POST" action="{{ url_for('delete_book', bok_id=rad[0]) }}" onsubmit="return confirm('Är du säker på att du vill ta bort den här boken?');"><button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Ta bort {{ rad[1] }}"><i class="bi bi-trash"></i></button></form>
+        </div></footer>
+    </article></div>
+    {% else %}
+    <div class="col-12 text-center mt-5"><div class="empty-state"><i class="bi bi-journal-x fs-1"></i><h4 class="mt-3">Inga böcker hittades.</h4><p class="mb-0"><a href="{{ url_for('add_book') }}" class="btn btn-primary mt-3">Lägg till en ny bok</a></p></div></div>
+    {% endfor %}
+</div>
+{% endblock %}

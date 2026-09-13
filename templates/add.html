@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card form-card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-journal-plus"></i> Lägg till ny bok</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('add_book') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="titel" class="form-label fw-bold">Titel *</label>
+                        <input type="text" class="form-control" id="titel" name="titel" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="forfattare" class="form-label fw-bold">Författare *</label>
+                        <input type="text" class="form-control" id="forfattare" name="forfattare" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="kategori" class="form-label fw-bold">Kategori</label>
+                        <select class="form-select" id="kategori" name="kategori">
+                            {% for k in kategorier %}
+                            <option value="{{ k }}">{{ k }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="tryckaar" class="form-label fw-bold">Tryckår</label>
+                            <input type="number" class="form-control" id="tryckaar" name="tryckaar" min="1000" max="2100">
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="forlag" class="form-label fw-bold">Förlag</label>
+                            <input type="text" class="form-control" id="forlag" name="forlag">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="thumbnail" class="form-label fw-bold">Omslagsbild (valfritt)</label>
+                        <input class="form-control" type="file" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.gif,.webp">
+                        <div class="form-text">Tillåtna format: jpg, jpeg, png, gif, webp</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('index') }}" class="btn btn-light me-md-2">Avbryt</a>
+                        <button type="submit" class="btn btn-primary">Spara bok</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

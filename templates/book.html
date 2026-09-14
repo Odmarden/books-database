@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-book">
+        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Biblioteket</a></li>
+        {% if bok['kategori'] %}<li class="breadcrumb-item"><a href="{{ url_for('index', kat=bok['kategori']) }}">{{ bok['kategori'] }}</a></li>{% endif %}
+        <li class="breadcrumb-item active" aria-current="page">{{ bok['titel'] }}</li>
+    </ol>
+</nav>
+
+<div class="row g-4 g-lg-5 book-page">
+    <div class="col-md-4 col-lg-3">
+        <div class="book-page-cover-wrap">
+            <div class="book-page-cover">
+                <img src="{{ url_for('thumbnail', filename=bok['thumbnail'] if bok['thumbnail'] else 'placeholder.svg') }}"
+                     alt="Omslag för {{ bok['titel'] }}"
+                     onerror="this.src='{{ url_for('thumbnail', filename='placeholder.svg') }}'">
+            </div>
+            <div class="d-grid gap-2 mt-3">
+                <a href="{{ url_for('upload_thumbnail', bok_id=bok['id']) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-image"></i> Byt omslag</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-lg-9">
+        <article class="book-page-body">
+            <h1 class="book-page-title">{{ bok['titel'] }}</h1>
+            <a href="{{ url_for('index', sok=bok['forfattare']) }}" class="book-page-author">av {{ bok['forfattare'] }}</a>
+
+            <div class="book-meta mt-3 mb-4">
+                {% if bok['kategori'] %}<a href="{{ url_for('index', kat=bok['kategori']) }}" class="text-decoration-none"><span class="tag tag-cat">{{ bok['kategori'] }}</span></a>{% endif %}
+                {% if bok['tryckaar'] %}<span class="tag tag-year">{{ bok['tryckaar'] }}</span>{% endif %}
+                {% if bok['forlag'] %}<span class="tag tag-pub">{{ bok['forlag'] }}</span>{% endif %}
+            </div>
+
+            {% if bok['beskrivning'] %}
+            <section class="book-desc">
+                <h2 class="section-label">Beskrivning</h2>
+                {% for stycke in bok['beskrivning'].split('\n\n') if stycke.strip() %}
+                <p>{{ stycke.strip() | replace('\n', '<br>') | safe }}</p>
+                {% endfor %}
+            </section>
+            {% else %}
+            <section class="book-desc book-desc-empty">
+                <h2 class="section-label">Beskrivning</h2>
+                <p class="text-muted mb-2">Ingen beskrivning finns än för den här boken.</p>
+                <a href="{{ url_for('edit_book', bok_id=bok['id']) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Skriv en beskrivning</a>
+            </section>
+            {% endif %}
+
+            {% if refererar or refereras_av %}
+            <section class="ref-page-section">
+                {% if refererar %}
+                <h2 class="section-label">Refererar till</h2>
+                <div class="ref-cards">
+                    {% for r in refererar %}
+                    <a href="{{ url_for('book_page', bok_id=r['id']) }}" class="ref-card" title="{{ r['titel'] }}">
+                        <span class="ref-card-cover"><img src="{{ url_for('thumbnail', filename=r['thumbnail'] if r['thumbnail'] else 'placeholder.svg') }}" alt="" onerror="this.src='{{ url_for('thumbnail', filename='placeholder.svg') }}'"></span>
+                        <span class="ref-card-body">
+                            <span class="ref-card-title">{{ r['titel'] }}</span>
+                            <span class="ref-card-author">{{ r['forfattare'] }}</span>
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if refereras_av %}
+                <h2 class="section-label">Refereras av</h2>
+                <div class="ref-cards">
+                    {% for r in refereras_av %}
+                    <a href="{{ url_for('book_page', bok_id=r['id']) }}" class="ref-card" title="{{ r['titel'] }}">
+                        <span class="ref-card-cover"><img src="{{ url_for('thumbnail', filename=r['thumbnail'] if r['thumbnail'] else 'placeholder.svg') }}" alt="" onerror="this.src='{{ url_for('thumbnail', filename='placeholder.svg') }}'"></span>
+                        <span class="ref-card-body">
+                            <span class="ref-card-title">{{ r['titel'] }}</span>
+                            <span class="ref-card-author">{{ r['forfattare'] }}</span>
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </section>
+            {% endif %}
+
+            <footer class="book-page-actions">
+                <a href="{{ url_for('edit_book', bok_id=bok['id']) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Redigera</a>
+                <form method="POST" action="{{ url_for('delete_book', bok_id=bok['id']) }}" onsubmit="return confirm('Är du säker på att du vill ta bort den här boken?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Ta bort</button>
+                </form>
+            </footer>
+        </article>
+    </div>
+</div>
+{% endblock %}

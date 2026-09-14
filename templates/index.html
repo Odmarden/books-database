@@ -17,11 +17,11 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     {% for rad in rader %}
     <div class="col"><article class="card book-card">
-        <a href="{{ url_for('upload_thumbnail', bok_id=rad[0]) }}" class="book-cover" title="Klicka för att ändra omslagsbild">
+        <a href="{{ url_for('book_page', bok_id=rad[0]) }}" class="book-cover" title="Visa boken {{ rad[1] }}">
             <img src="{{ url_for('thumbnail', filename=rad[6] if rad[6] else 'placeholder.svg') }}" alt="Omslag för {{ rad[1] }}" onerror="this.src='{{ url_for('thumbnail', filename='placeholder.svg') }}'">
         </a>
         <div class="card-body d-flex flex-column">
-            <h2 class="book-title">{{ rad[1] }}</h2>
+            <h2 class="book-title"><a href="{{ url_for('book_page', bok_id=rad[0]) }}" class="book-title-link">{{ rad[1] }}</a></h2>
             <a href="{{ url_for('index', sok=rad[2]) }}" class="book-author book-author-link" title="Visa böcker av {{ rad[2] }}">av {{ rad[2] }}</a>
             <div class="book-meta mb-2">
                 {% if rad[3] %}<a href="{{ url_for('index', kat=rad[3]) }}" class="text-decoration-none"><span class="tag tag-cat">{{ rad[3] }}</span></a>{% endif %}
@@ -29,7 +29,7 @@
                 {% if rad[5] %}<span class="tag tag-pub">{{ rad[5] }}</span>{% endif %}
             </div>
             {% if rad[7] %}<div class="ref-section mt-auto pt-2 border-top"><small class="ref-label fw-bold d-block mb-1">Relaterat</small>
-                {% for ref_data in rad[7].split('||') %}{% set parts = ref_data.split(':', 1) %}{% if parts|length == 2 %}<a href="{{ url_for('index', sok=parts[1]) }}" class="ref-link">{{ parts[1] }}</a>{% endif %}{% endfor %}
+                {% for ref_data in rad[7].split('||') %}{% set parts = ref_data.split(':', 1) %}{% if parts|length == 2 %}<a href="{{ url_for('book_page', bok_id=parts[0]) }}" class="ref-link" title="Visa {{ parts[1] }}">{{ parts[1] }}</a>{% endif %}{% endfor %}
             </div>{% endif %}
         </div>
         <footer class="card-footer"><div class="book-actions d-flex justify-content-between align-items-center">

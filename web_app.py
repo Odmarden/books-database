@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_from_directory, redirect, url_for, flash
+from flask import Flask, request, render_template, send_from_directory, redirect, url_for, flash, abort
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
@@ -36,7 +36,7 @@ def thumbnail(filename):
         actual_filename = filename[11:]
     else:
         actual_filename = filename
-    
+
     thumbnail_path = os.path.join('thumbnails', actual_filename)
     if os.path.exists(thumbnail_path):
         return send_from_directory('thumbnails', actual_filename)
@@ -47,37 +47,65 @@ def thumbnail(filename):
 def index():
     sokord = request.args.get('sok', '')
     kategori = request.args.get('kat', '')
-    
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     query = '''
         SELECT b.id, b.titel, b.forfattare, b.kategori, b.tryckaar, b.forlag, b.thumbnail,
-        (SELECT GROUP_CONCAT(b2.id || ':' || b2.titel, '||') 
-         FROM referenser r 
-         JOIN bocker b2 ON r.ref_id = b2.id 
+        (SELECT GROUP_CONCAT(b2.id || ':' || b2.titel, '||')
+         FROM referenser r
+         JOIN bocker b2 ON r.ref_id = b2.id
          WHERE r.bok_id = b.id) as relaterat
         FROM bocker b
         WHERE 1=1
     '''
     params = []
-    
+
     if sokord:
         query += ' AND (b.titel LIKE ? OR b.forfattare LIKE ? OR b.forlag LIKE ? OR CAST(b.tryckaar AS TEXT) LIKE ?)'
         search_term = f"%{sokord}%"
         params.extend([search_term, search_term, search_term, search_term])
-        
+
     if kategori:
         query += ' AND b.kategori = ?'
         params.append(kategori)
-        
+
     query += ' ORDER BY b.id DESC'
-    
+
     cursor.execute(query, params)
     rader = cursor.fetchall()
     conn.close()
-    
+
     return render_template('index.html', rader=rader, sokord=sokord, vald_kat=kategori, kategorier=KATEGORIER)
+
+@app.route('/bok/<int:bok_id>')
+def book_page(bok_id):
+    conn = get_db_connection()
+    bok = conn.execute('SELECT * FROM bocker WHERE id = ?', (bok_id,)).fetchone()
+
+    if bok is None:
+        conn.close()
+        abort(404)
+
+    # Böcker som denna bok refererar till
+    refererar = conn.execute(
+        '''SELECT b2.id, b2.titel, b2.thumbnail, b2.forfattare
+           FROM referenser r
+           JOIN bocker b2 ON r.ref_id = b2.id
+           WHERE r.bok_id = ?
+           ORDER BY b2.titel''', (bok_id,)).fetchall()
+
+    # Böcker som refererar till denna bok
+    refereras_av = conn.execute(
+        '''SELECT b2.id, b2.titel, b2.thumbnail, b2.forfattare
+           FROM referenser r
+           JOIN bocker b2 ON r.bok_id = b2.id
+           WHERE r.ref_id = ?
+           ORDER BY b2.titel''', (bok_id,)).fetchall()
+
+    conn.close()
+    return render_template('book.html', bok=bok, refererar=refererar, refereras_av=refereras_av)
 
 @app.route('/add', methods=('GET', 'POST'))
 def add_book():
@@ -87,7 +115,8 @@ def add_book():
         kategori = request.form.get('kategori')
         tryckaar = request.form.get('tryckaar')
         forlag = request.form.get('forlag')
-        
+        beskrivning = request.form.get('beskrivning', '').strip()
+
         thumbnail_path = 'thumbnails/placeholder.svg'
         if 'thumbnail' in request.files:
             file = request.files['thumbnail']
@@ -102,12 +131,13 @@ def add_book():
             flash('Titel och författare är obligatoriska fält!', 'error')
         else:
             conn = get_db_connection()
-            conn.execute('INSERT INTO bocker (titel, forfattare, kategori, tryckaar, forlag, thumbnail) VALUES (?, ?, ?, ?, ?, ?)',
-                         (titel, forfattare, kategori, tryckaar if tryckaar else None, forlag if forlag else None, thumbnail_path))
+            cursor = conn.execute('INSERT INTO bocker (titel, forfattare, kategori, tryckaar, forlag, thumbnail, beskrivning) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                         (titel, forfattare, kategori, tryckaar if tryckaar else None, forlag if forlag else None, thumbnail_path, beskrivning if beskrivning else None))
             conn.commit()
+            nytt_id = cursor.lastrowid
             conn.close()
             flash('Boken lades till i biblioteket!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('book_page', bok_id=nytt_id))
 
     return render_template('add.html', kategorier=KATEGORIER)
 
@@ -115,19 +145,20 @@ def add_book():
 def edit_book(bok_id):
     conn = get_db_connection()
     bok = conn.execute('SELECT * FROM bocker WHERE id = ?', (bok_id,)).fetchone()
-    
+
     if bok is None:
         conn.close()
         flash('Boken hittades inte.', 'error')
         return redirect(url_for('index'))
-        
+
     if request.method == 'POST':
         titel = request.form['titel']
         forfattare = request.form['forfattare']
         kategori = request.form.get('kategori')
         tryckaar = request.form.get('tryckaar')
         forlag = request.form.get('forlag')
-        
+        beskrivning = request.form.get('beskrivning', '').strip()
+
         thumbnail_path = bok['thumbnail']
         if 'thumbnail' in request.files:
             file = request.files['thumbnail']
@@ -141,13 +172,13 @@ def edit_book(bok_id):
         if not titel or not forfattare:
             flash('Titel och författare är obligatoriska fält!', 'error')
         else:
-            conn.execute('UPDATE bocker SET titel = ?, forfattare = ?, kategori = ?, tryckaar = ?, forlag = ?, thumbnail = ? WHERE id = ?',
-                         (titel, forfattare, kategori, tryckaar if tryckaar else None, forlag if forlag else None, thumbnail_path, bok_id))
+            conn.execute('UPDATE bocker SET titel = ?, forfattare = ?, kategori = ?, tryckaar = ?, forlag = ?, thumbnail = ?, beskrivning = ? WHERE id = ?',
+                         (titel, forfattare, kategori, tryckaar if tryckaar else None, forlag if forlag else None, thumbnail_path, beskrivning if beskrivning else None, bok_id))
             conn.commit()
             conn.close()
             flash('Boken uppdaterades framgångsrikt!', 'success')
-            return redirect(url_for('index'))
-            
+            return redirect(url_for('book_page', bok_id=bok_id))
+
     conn.close()
     return render_template('edit.html', bok=bok, kategorier=KATEGORIER)
 
@@ -165,7 +196,7 @@ def delete_book(bok_id):
 def upload_thumbnail(bok_id):
     conn = get_db_connection()
     bok = conn.execute("SELECT id, titel, forfattare, thumbnail FROM bocker WHERE id = ?", (bok_id,)).fetchone()
-    
+
     if not bok:
         conn.close()
         flash('Boken hittades inte', 'error')
@@ -182,10 +213,10 @@ def upload_thumbnail(bok_id):
                 conn.commit()
                 flash('Omslagsbild uppdaterad!', 'success')
                 conn.close()
-                return redirect(url_for('index'))
+                return redirect(url_for('book_page', bok_id=bok_id))
             else:
                 flash('Otillåtet filformat. Tillåtna: jpg, jpeg, png, gif, webp.', 'error')
-    
+
     conn.close()
     return render_template('upload.html', bok=bok)
 

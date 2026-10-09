@@ -5,7 +5,16 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'superhemlig_nyckel_byt_i_produktion'
+app.jinja_env.auto_reload = True
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+# Läs eller generera en säker slumpmässig hemlig nyckel
+SECRET_KEY_FILE = os.path.join(os.path.dirname(__file__), '.secret_key')
+try:
+    with open(SECRET_KEY_FILE, 'rb') as _f:
+        app.secret_key = _f.read()
+except Exception:
+    import secrets
+    app.secret_key = secrets.token_bytes(32)
 DB_NAMN = "bibliotek.db"
 THUMBNAIL_DIR = "thumbnails"
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "gif", "webp"}
